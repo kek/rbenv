@@ -52,6 +52,13 @@ setup() {
   assert_failure "rbenv: version \`1.2' is not installed"
 }
 
+@test "version has DOS newline" {
+  create_version "1.9.3"
+  echo "1.9.3" | sed -e 's/$/\r/' > .ruby-version
+  run rbenv-version-name
+  assert_success "1.9.3"
+}
+
 @test "version with prefix in name" {
   create_version "1.8.7"
   cat > ".ruby-version" <<<"ruby-1.8.7"
